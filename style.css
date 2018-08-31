@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+	font-family: 'Open Sans', sans-serif;
+	background-color: #fdfdfd
+}
+
+.top-bar {
+	background-color: #5A2FC2;
+	color: white;
+}
+
+.top-bar button {
+	border-radius: 50px;
+	background-color: #F84066;
+	color: white;
+	border-color: transparent;
+}
+
+.top-bar button:hover {
+	background-color: white;
+	color: #282828;
+	border-color: white;
+}
+
+#authenticate_toggle:hover {
+	background-color: white;
+	color: #282828;
+	border-color: white;
+}
+
+.blur {
+	-webkit-filter: blur(3px);
+	-moz-filter: blur(3px);
+	-o-filter: blur(3px);
+	-ms-filter: blur(3px);
+	filter: blur(3px);
+}
+
+.material-icons.md-18 {
+	font-size: 18px;
+}
+
+.material-icons.md-24 {
+	font-size: 24px;
+}
+
+.material-icons.md-36 {
+	font-size: 36px;
+}
+
+.material-icons.md-48 {
+	font-size: 48px;
+	color: #BEBEBE;
+}
+
+.card {
+}
+
+.card-header {
+	background-color: #E5E5E6;
+	color: #656565;
+}
+
+.card:hover {
+	box-shadow: 0 3px 3px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.jumbotron {
+	background-color: white;
+	margin-top: 15px;
+}
+.last_refreshed_span {
+	margin-right: 10px;
+}
+
+.globaltitle {
+	margin-bottom: 10px
+}
+
+.last_refreshed_span {
+	font-size: 12px;
+}
+
+button {
+	margin-left: 5px;
+}
+
+.authenticate_div {
+	background-color: rgba(255, 255, 255, 0.2);
+	border-radius: 5px;
+	margin: 5px;
+}

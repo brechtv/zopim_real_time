@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<title>Real-time Zopim Status</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<div class="pos-f-t">
+			<nav class="navbar top-bar fixed-top box-shadow">
+				<h5 class="my-0 mr-md-auto font-weight-normal">
+				  Real-Time Chat Status</h5>
+				<nav class="my-2 my-md-0 mr-md-3">
+				</nav>
+				<span class="last_refreshed_span">Last refreshed at: <span id="last_refreshed_value"></span></span>
+				<button class="btn btn-primary" id="refresh" onclick="refresh();">Refresh</button>
+				<button class="btn btn-primary" data-toggle="collapse" data-target="#authenticate_collapse" aria-controls="authenticate_collapse" aria-expanded="false" aria-label="Toggle navigation" id="authenticate_toggle">
+				Authenticate
+				</button>
+				<div class="collapse" id="authenticate_collapse">
+					<div class="authenticate_div p-4">
+						<h5 class="text-white h4">Authentication</h5>
+						<div class="input-group input-group-sm mb-3">
+							<input type="text" class="form-control" aria-label="OAuth token" aria-describedby="inputGroup-sizing-sm" placeholder="OAuth Token" id="oauth_token">
+							<div class="input-group-append">
+								<button  class="btn btn-outline-secondary" type="button" id="button-addon2"
+								onclick="save_credentials();">Save</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</nav>
+		</div>
+		<section class="jumbotron text-center">
+			<div class="container">
+				<h2 class="jumbotron-heading">Global Overview</h2>
+				<p class="lead text-muted">Agents currently online, incoming chats and agents per department.</p>
+			</div>
+		</section>
+		<div class="container">
+			<div class="card-deck mb-3 text-center">
+				<div class="card mb-4 shadow-sm">
+					<div class="card-header" style='background-color: #0092E5; color: white;'>
+						<h4 class="my-0 font-weight-normal">Online</h4>
+					</div>
+					<div class="card-body agent-ticker">
+						<h1 id="agents_online" class="card-title pricing-card-title"><i class="material-icons md-48">sync</i></h1>
+						<div class="text-muted" id="online_percentage"></div>
+					</div>
+				</div>
+				<div class="card mb-4 shadow-sm">
+					<div class="card-header">
+						<h4 class="my-0 font-weight-normal">Away</h4>
+					</div>
+					<div class="card-body agent-ticker">
+						<h1 id="agents_away" class="card-title pricing-card-title"><i class="material-icons md-48">sync</i></h1>
+					</div>
+				</div>
+				<div class="card mb-4 shadow-sm">
+					<div class="card-header">
+						<h4 class="my-0 font-weight-normal">Invisible</h4>
+					</div>
+					<div class="card-body agent-ticker">
+						<h1 id="agents_invisible" class="card-title pricing-card-title"><i class="material-icons md-48">sync</i></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card-deck mb-3 text-center">
+				<div class="card mb-4 shadow-sm">
+					<div class="card-header" style='background-color: #0092E5; color: white;'>
+						<h4 class="my-0 font-weight-normal">Active Chats</h4>
+					</div>
+					<div class="card-body chat-ticker">
+						<h1 id="active_chats" class="card-title pricing-card-title"><i class="material-icons md-48">sync</i></h1>
+					</div>
+				</div>
+				<div class="card mb-4 shadow-sm">
+					<div class="card-header">
+						<h4 class="my-0 font-weight-normal">Assigned Chats</h4>
+					</div>
+					<div class="card-body chat-ticker">
+						<h1 id="assigned_chats" class="card-title pricing-card-title"><i class="material-icons md-48">sync</i></h1>
+					</div>
+				</div>
+				<div class="card mb-4 shadow-sm">
+					<div class="card-header">
+						<h4 class="my-0 font-weight-normal">Incoming Chats</h4>
+					</div>
+					<div class="card-body chat-ticker">
+						<h1 id="incoming_chats" class="card-title pricing-card-title"><i class="material-icons md-48">sync</i></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="dropdown">
+				<h3 class="my-0 font-weight-normal" id="current_department"></h3>
+				<button class="btn btn-link dropdown-toggle" type="button" id="department_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Select Department
+				</button>
+				<div id="department_dropdown_options" class="dropdown-menu" aria-labelledby="department_dropdown">
+				</div>
+			</div>
+			<div class="card-deck mb-3 text-center">
+				<div class="card mb-4 shadow-sm">
+					<div class="card-header" style='background-color: #F84066; color: white;'>
+						<h4 class="my-0 font-weight-normal">Online</h4>
+					</div>
+					<div class="card-body department-ticker">
+						<h1 id="department_agents_online" class="card-title pricing-card-title"></h1>
+						<div class="text-muted" id="department_online_percentage"></div>
+					</div>
+				</div>
+				<div class="card mb-4 shadow-sm">
+					<div class="card-header">
+						<h4 class="my-0 font-weight-normal">Away</h4>
+					</div>
+					<div class="card-body department-ticker">
+						<h1 id="department_agents_away" class="card-title pricing-card-title"><i class="material-icons md-48">sync</i></h1>
+					</div>
+				</div>
+				<div class="card mb-4 shadow-sm">
+					<div class="card-header">
+						<h4 class="my-0 font-weight-normal">Invisible</h4>
+					</div>
+					<div class="card-body department-ticker">
+						<h1 id="department_agents_invisible" class="card-title pricing-card-title"><i class="material-icons md-48">sync</i></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+		<script src="app.js"></script>
+	</body>
+</html>
