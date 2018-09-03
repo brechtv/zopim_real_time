@@ -9,10 +9,12 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<title>Real-time Zopim Status</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 	</head>
 	<body>
 		<div class="pos-f-t">
-			<nav class="navbar top-bar fixed-top box-shadow">
+			<nav class="navbar top-bar fixed-top box-shadow shadow-sm">
 				<h5 class="my-0 mr-md-auto font-weight-normal">
 				  Real-Time Chat Status</h5>
 				<nav class="my-2 my-md-0 mr-md-3">
@@ -70,17 +72,17 @@
 				</div>
 				<div class="card mb-4 shadow-sm">
 					<div class="card-header">
-						<h4 class="my-0 font-weight-normal">Invisible</h4>
+						<h4 class="my-0 font-weight-normal">Agents Online Historical</h4>
 					</div>
 					<div class="card-body agent-ticker">
-						<h1 id="agents_invisible" class="card-title pricing-card-title"><i class="material-icons md-48">sync</i></h1>
+						<div id="online_historical" style="width: 100%;"></div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="container">
 			<div class="card-deck mb-3 text-center">
-				<div class="card mb-4 shadow-sm">
+				<div class="card mb-4 shadow-sm active-chats-card">
 					<div class="card-header" style='background-color: #0092E5; color: white;'>
 						<h4 class="my-0 font-weight-normal">Active Chats</h4>
 					</div>
@@ -107,10 +109,10 @@
 				</div>
 				<div class="card mb-4 shadow-sm">
 					<div class="card-header">
-						<h4 class="my-0 font-weight-normal">Incoming Chats</h4>
+						<h4 class="my-0 font-weight-normal">Chats Historical</h4>
 					</div>
-					<div class="card-body chat-ticker">
-						<h1 id="incoming_chats" class="card-title pricing-card-title"><i class="material-icons md-48">sync</i></h1>
+					<div class="card-body agent-ticker">
+						<div id="chats_historical" style="width: 100%;"></div>
 					</div>
 				</div>
 			</div>
@@ -156,5 +158,10 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 		<script src="app.js"></script>
+		<script type="text/javascript">
+      		google.charts.load('current', {'packages':['line']});
+		</script>
+		
+		
 	</body>
 </html>
