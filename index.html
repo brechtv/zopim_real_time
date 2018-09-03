@@ -12,9 +12,9 @@
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 	</head>
-	<body>
+	<body class="body">
 		<div class="pos-f-t">
-			<nav class="navbar top-bar fixed-top box-shadow shadow-sm">
+			<nav class="navbar top-bar fixed-top box-shadow shadow">
 				<h5 class="my-0 mr-md-auto font-weight-normal">
 				  Real-Time Chat Status</h5>
 				<nav class="my-2 my-md-0 mr-md-3">
@@ -24,6 +24,7 @@
 				<button class="btn btn-primary" data-toggle="collapse" data-target="#authenticate_collapse" aria-controls="authenticate_collapse" aria-expanded="false" aria-label="Toggle navigation" id="authenticate_toggle">
 				Authenticate
 				</button>
+				<button class="invert_btn btn" onclick="toggle_theme();"><i class="material-icons">invert_colors</i></button>
 				<div class="collapse" id="authenticate_collapse">
 					<div class="authenticate_div p-4">
 						<h5 class="text-white h4">Authentication</h5>
@@ -38,12 +39,12 @@
 				</div>
 			</nav>
 		</div>
-		<section class="jumbotron text-center">
+		<div class="jumbotron text-center">
 			<div class="container">
 				<h2 class="jumbotron-heading">Global Overview</h2>
 				<p class="text-center text-muted">Real-time data from Zopim, refreshed every 30 seconds</p>
 			</div>
-		</section>
+		</div>
 		<div class="container">
 			<div class="card-deck mb-3 text-center">
 				<div class="card mb-4 shadow-sm">

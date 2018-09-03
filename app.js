@@ -3,10 +3,12 @@ var department_name;
 var token;
 var chats_historical = [];
 var online_historical = [];
+var theme = "dark";
 
 init()
 
 function init() {
+    toggle_theme()
     department_id = localStorage.getItem('department_id');
     department_name = localStorage.getItem('department_name');
     token = localStorage.getItem('token');
@@ -202,9 +204,50 @@ function draw_historical(chats_array, target_container) {
                 min:0
               }
         },
-        
+        backgroundColor: 'transparent',
       };
 
       var chart = new google.charts.Line(document.getElementById(target_container));
       chart.draw(data, google.charts.Line.convertOptions(options));
+}
+
+function toggle_theme() {
+
+    if(theme == "light") {
+        toggle_dark_theme()
+        theme = "dark"
+    } else if(theme == "dark") {
+        toggle_light_theme()
+        theme = "light"
+    }
+
+function toggle_dark_theme() {
+    $("body").css("background-color", "#181818")
+    $(".top-bar").css("background-color", "#282828")
+    $(".top-bar button").css("background-color", "grey")
+    $(".card-header").css("background-color", "#282828")
+    $(".card-header").css("color", "#f5f5f5")
+    $(".card-body").css("background-color", "#484848")
+    $(".card-body").css("color", "#f5f5f5")
+    $(".jumbotron").css("background-color", "#181818")
+    $(".jumbotron").css("color", "#f5f5f5")
+    $(".container").css("background-color", "#181818")
+    $(".card").css("border-color", "#686868")
+    $("#current_department").css("color", "#f5f5f5")
+}
+
+function toggle_light_theme() {
+    $("body").css("background-color", "#fff")
+    $(".top-bar").css("background-color", "#5A2FC2")
+    $(".top-bar button").css("background-color", "#F84066")
+    $(".card-header").css("background-color", "#E5E5E6")
+    $(".card-header").css("color", "#5A2FC2")
+    $(".card-body").css("background-color", "#fff")
+    $(".card-body").css("color", "#5A2FC2")
+    $(".jumbotron").css("background-color", "#fff")
+    $(".jumbotron").css("color", "#5A2FC2")
+    $(".container").css("background-color", "#fff")
+    $(".card").css("border-color", "#686868")
+    $("#current_department").css("color", "#5A2FC2")
+}
 }

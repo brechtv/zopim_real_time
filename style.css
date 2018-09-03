@@ -2,7 +2,16 @@
 
 body {
 	font-family: 'Open Sans', sans-serif;
-	background-color: #fdfdfd
+}
+
+.invert_btn {
+	border-width: none !important;
+	background-color: transparent !important;
+	font-size: 12px;
+}
+
+.invert_btn .material-icons {
+	font-size: 14px;
 }
 
 .jumbotron {
