@@ -39,7 +39,6 @@
 		<section class="jumbotron text-center">
 			<div class="container">
 				<h2 class="jumbotron-heading">Global Overview</h2>
-				<p class="lead text-muted">Agents currently online, incoming chats and agents per department.</p>
 			</div>
 		</section>
 		<div class="container">
@@ -50,8 +49,16 @@
 					</div>
 					<div class="card-body agent-ticker">
 						<h1 id="agents_online" class="card-title pricing-card-title"><i class="material-icons md-48">sync</i></h1>
-						<div class="text-muted" id="online_percentage"></div>
+						<div class="text-muted">
+						<div class="text-muted">
+							<span id="online_percentage">0%</span> of total agents logged in
+						</div>
+						<div class="progress">
+                     			 <div id="online_percentage_bar" data-percentage="0%" style="width: 0%;" class="progress-bar progress-bar-info" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                     			</div>
+                     	</div>
 					</div>
+				</div>
 				</div>
 				<div class="card mb-4 shadow-sm">
 					<div class="card-header">
@@ -79,6 +86,15 @@
 					</div>
 					<div class="card-body chat-ticker">
 						<h1 id="active_chats" class="card-title pricing-card-title"><i class="material-icons md-48">sync</i></h1>
+						<div class="text-muted">
+							<div class="text-muted">
+								<span id="calculated_capacity">0%</span> of CC (Calculated Capacity)
+							</div>
+							<div class="progress">
+                     			 <div id="calculated_capacity_bar" data-percentage="0%" style="width: 0%;" class="progress-bar progress-bar-info" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                     		</div>
+                    </div>
+						</div>
 					</div>
 				</div>
 				<div class="card mb-4 shadow-sm">

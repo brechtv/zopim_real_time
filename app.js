@@ -23,7 +23,6 @@ function init() {
 
 function refresh() {
     refresh_agents(token)
-    refresh_chats(token)
     refresh_agents_for_department(department_id, department_name, token)
 }
 
@@ -48,14 +47,14 @@ function refresh_agents(token) {
         $("#authenticate_toggle").css("background-color", "#4CAF50")
         $("#refresh").prop('disabled', false);
         var data = result.content.data
-        var online_pct = (data.agents_online / (data.agents_online + data.agents_away) * 100).toFixed(0) + "%"
         $("#agents_away").text(data.agents_away)
         $("#agents_online").text(data.agents_online)
-        $("#online_percentage").text(online_pct)
         $("#agents_invisible").text(data.agents_invisible)
         // $(".agent-ticker").removeClass("blur")
-        var date = new Date()
-        $("#last_refreshed_value").text(date.toTimeString())
+        var online_pct = (data.agents_online / (data.agents_online + data.agents_away) * 100).toFixed(0) + "%"
+        $("#online_percentage").text(online_pct)
+        $("#online_percentage_bar").css("width", online_pct)
+        refresh_chats(token)
     })
     .fail(function(result) {
         $("#authenticate_toggle").text("Not Authenticated")
@@ -77,7 +76,18 @@ function refresh_chats(token) {
         $("#incoming_chats").text(data.incoming_chats)
     	$("#assigned_chats").text(data.assigned_chats)
     	$("#active_chats").text(data.active_chats)
-        // $(".chat-ticker").removeClass("blur")
+
+        // calculate capacity
+        var agents = $("#agents_online").text()
+        var chats = $("#active_chats").text()
+        var calculated_capacity = (chats / (agents * 2) * 100).toFixed(0) + "%"
+        console.log(calculated_capacity)
+        $("#calculated_capacity").text(calculated_capacity)
+        $("#calculated_capacity_bar").css("width", calculated_capacity)
+
+        /// update last refreshed timestamp
+        var date = new Date()
+        $("#last_refreshed_value").text(date.toTimeString())
     });
 }
 
