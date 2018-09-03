@@ -8,25 +8,47 @@ var theme = "dark";
 init()
 
 function init() {
-    toggle_theme()
+    // in case the token is provided as a url param
+    // otherwise try localstorage
+    if(getParameterByName('t')) {
+        token = getParameterByName('t')
+    } else {
+        token = localStorage.getItem('token');
+    }
+    $("#oauth_token").val(token)
+    // load the theme (dark / light, default light)
+    toggle_theme();
+    // get preferred dept from localstorage
     department_id = localStorage.getItem('department_id');
     department_name = localStorage.getItem('department_name');
-    token = localStorage.getItem('token');
-    $("#oauth_token").val(token)
+    // then start getting data
     refresh_agents(token)
+    // if we have a department from localstorage
+    // load data for that one, otherwise use first
     if (department_id) {
         refresh_agents_for_department(department_id, department_name, token)
         refresh_departments(token)
     } else {
         refresh_departments(token)
     }
+    //set an auto refresh every n seconds
     setInterval(function() {
         refresh()
-    }, 60000);
-
+    }, 30000);
+    // helper to extract url parameters
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
 }
 
 function refresh() {
+    // refreshes the data
     refresh_agents(token)
     refresh_agents_for_department(department_id, department_name, token)
 }
@@ -38,9 +60,8 @@ function save_credentials() {
     refresh()
 }
 
-// agents
+// agents, and nested chats
 function refresh_agents(token) {
-
     $("#agents_away").html(`<i class="material-icons md-48">sync</i>`)
     $("#agents_online").html(`<i class="material-icons md-48">sync</i>`)
     $("#agents_invisible").html(`<i class="material-icons md-48">sync</i>`)
