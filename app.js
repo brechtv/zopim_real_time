@@ -43,7 +43,7 @@ function refresh_agents(token) {
     $("#agents_online").html(`<i class="material-icons md-48">sync</i>`)
     $("#agents_invisible").html(`<i class="material-icons md-48">sync</i>`)
     $.ajax({
-            url: "https://bvcors.herokuapp.com/https://rtm.zopim.com/stream/agents",
+            url: "https://dcl-cors.herokuapp.com/https://rtm.zopim.com/stream/agents",
             headers: {
                 "Authorization": "Bearer " + token
             }
@@ -53,9 +53,13 @@ function refresh_agents(token) {
             $("#authenticate_toggle").css("background-color", "#4CAF50")
             $("#refresh").prop('disabled', false);
             var data = result.content.data
-            $("#agents_away").text(data.agents_away)
+            
             $("#agents_online").text(data.agents_online)
-            $("#agents_invisible").text(data.agents_invisible)
+            var agents_away = data.agents_away;
+            if(data.agents_invisible > 0) {
+                agents_away += " <span class='text-muted'>(+" + data.agents_invisible + ")</span>"
+            }
+            $("#agents_away").html(agents_away)
                 // $(".agent-ticker").removeClass("blur")
             var online_pct = (data.agents_online / (data.agents_online + data.agents_away) * 100).toFixed(0) + "%"
             $("#online_percentage").text(online_pct)
@@ -86,7 +90,7 @@ function refresh_chats(token) {
     $("#assigned_chats").html(`<i class="material-icons md-48">sync</i>`)
     $("#active_chats").html(`<i class="material-icons md-48">sync</i>`)
     $.ajax({
-        url: "https://bvcors.herokuapp.com/https://rtm.zopim.com/stream/chats",
+        url: "https://dcl-cors.herokuapp.com/https://rtm.zopim.com/stream/chats",
         headers: {
             "Authorization": "Bearer " + token
         }
@@ -131,7 +135,7 @@ function refresh_chats(token) {
 // departments
 function refresh_departments(token) {
     $.ajax({
-        url: "https://bvcors.herokuapp.com/https://www.zopim.com/api/v2/departments",
+        url: "https://dcl-cors.herokuapp.com/https://www.zopim.com/api/v2/departments",
         headers: {
             "Authorization": "Bearer " + token
         }
@@ -159,7 +163,7 @@ function refresh_agents_for_department(department_id, department_name, token) {
     $("#department_agents_away").html(`<i class="material-icons md-48">sync</i>`)
     $("#current_department").text(department_name)
     $.ajax({
-        url: "https://bvcors.herokuapp.com/https://rtm.zopim.com/stream/agents?department_id=" + department_id,
+        url: "https://dcl-cors.herokuapp.com/https://rtm.zopim.com/stream/agents?department_id=" + department_id,
         headers: {
             "Authorization": "Bearer " + token
         }
@@ -190,11 +194,17 @@ function draw_historical(chats_array, target_container) {
         legend: {position: 'none'},
         hAxis: { title: '' },
         series: {
-            0: { color: (target_container == "chats_historical" ? "#0092E5" : "#F84066") }
-        }
+            0: { color: (target_container == "chats_historical" ? "#0092E5" : "#F84066"), }
+        },
+        vAxis: {
+            viewWindowMode:'explicit',
+            viewWindow:{
+                min:0
+              }
+        },
+        
       };
 
       var chart = new google.charts.Line(document.getElementById(target_container));
-
       chart.draw(data, google.charts.Line.convertOptions(options));
 }
