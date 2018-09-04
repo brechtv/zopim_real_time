@@ -4,10 +4,16 @@ var token;
 var chats_historical = [];
 var online_historical = [];
 var theme = "dark";
+var refresh_rate = 60000;
 
 init()
 
 function init() {
+    // get preferred dept from localstorage (if exists)
+    department_id = localStorage.getItem('department_id');
+    department_name = localStorage.getItem('department_name');
+    
+
     // in case the token is provided as a url param
     // otherwise try localstorage
     if(getParameterByName('t')) {
@@ -16,11 +22,16 @@ function init() {
         token = localStorage.getItem('token');
     }
     $("#oauth_token").val(token)
+    
+    // get refresh rate
+    if(localStorage.getItem('refresh_rate')) {
+        refresh_rate = localStorage.getItem('refresh_rate')
+    }
+    $("#refresh_rate").val(refresh_rate/1000)
+    $("#refresh_rate_span").text(refresh_rate/1000)
+
     // load the theme (dark / light, default light)
     toggle_theme();
-    // get preferred dept from localstorage
-    department_id = localStorage.getItem('department_id');
-    department_name = localStorage.getItem('department_name');
     // then start getting data
     refresh_agents(token)
     // if we have a department from localstorage
@@ -34,7 +45,7 @@ function init() {
     //set an auto refresh every n seconds
     setInterval(function() {
         refresh()
-    }, 30000);
+    }, refresh_rate);
     // helper to extract url parameters
     function getParameterByName(name, url) {
         if (!url) url = window.location.href;
@@ -56,6 +67,14 @@ function refresh() {
 function save_credentials() {
     token = $("#oauth_token").val()
     localStorage.setItem("token", token);
+    $("#authenticate_toggle").click();
+    refresh()
+}
+
+function save_refresh_rate() {
+    refresh_rate = $("#refresh_rate").val() * 1000
+    localStorage.setItem("refresh_rate", refresh_rate);
+    $("#refresh_rate_span").text($("#refresh_rate").val())
     $("#authenticate_toggle").click();
     refresh()
 }
@@ -112,12 +131,24 @@ function refresh_chats(token) {
     $("#incoming_chats").html(`<i class="material-icons md-48">sync</i>`)
     $("#assigned_chats").html(`<i class="material-icons md-48">sync</i>`)
     $("#active_chats").html(`<i class="material-icons md-48">sync</i>`)
+
+    $.ajax({
+        url: "https://dcl-cors.herokuapp.com/https://rtm.zopim.com/stream/chats/active_chats",
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    }).done(function(result) {
+        console.log(result)
+    })
+
+
     $.ajax({
         url: "https://dcl-cors.herokuapp.com/https://rtm.zopim.com/stream/chats",
         headers: {
             "Authorization": "Bearer " + token
         }
     }).done(function(result) {
+        console.log(result)
         var data = result.content.data
         var date = new Date();
         if (chats_historical.length > 60) {
@@ -131,7 +162,7 @@ function refresh_chats(token) {
         }
 
         $("#incoming_chats").text(data.incoming_chats)
-        $("#assigned_chats").text(data.assigned_chats)
+        $("#assigned_chats").text("/")
         $("#active_chats").text(data.active_chats)
 
         // calculate capacity
@@ -154,6 +185,18 @@ function refresh_chats(token) {
         $("#last_refreshed_value").text(date.toTimeString())
     });
 }
+
+// function refresh_unassigned_offlines(token) {
+//     // https://looker.zendesk.com/api/v2/search.json
+//     $.ajax({
+//         url: "https://dcl-cors.herokuapp.com/https://looker.zendesk.com/api/v2/search.json",
+//         headers: {
+//             "Authorization": "Bearer " + token
+//         }
+//     }).done(function(result) {
+//         console.log(result)
+//     })
+// }
 
 // departments
 function refresh_departments(token) {

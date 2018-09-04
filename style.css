@@ -102,10 +102,14 @@ button {
 	margin-left: 5px;
 }
 
-.authenticate_div {
-	background-color: rgba(255, 255, 255, 0.2);
+.settings_container {
+	background-color: #E5E5E6;
+  color: #5A2FC2;
 	border-radius: 5px;
-	margin: 5px;
+	margin-bottom: 20px;
+  border-color: #686868;
+  border-width: 1px;
+  border-style: solid;
 }
 
 @-ms-keyframes spin {
